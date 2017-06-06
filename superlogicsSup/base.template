@@ -1,0 +1,9 @@
+
+record(ai, "$(P)$(ADDR):1:VALUE")
+{
+    field(SCAN, "1 second")
+    field(DTYP, "stream")
+    field(INP, "@sprlg.proto get_values($(P),$(ADDR)) $(PORT)")
+    field(PREC, "3")
+    field(EGU,  "V")
+}

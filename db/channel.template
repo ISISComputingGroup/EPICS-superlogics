@@ -1,0 +1,5 @@
+
+# This record is set from 1:VALUE
+record(ai, "$(P)$(ADDR):$(CHAN):VALUE")
+{
+}
