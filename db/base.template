@@ -7,3 +7,10 @@ record(ai, "$(P)$(ADDR):1:VALUE")
     field(PREC, "3")
     field(EGU,  "V")
 }
+
+record(stringin, "$(P)$(ADDR):VERSION")
+{
+    field(SCAN, "1 second")
+    field(DTYP, "stream")
+    field(INP, "@sprlg.proto get_version($(P),$(ADDR)) $(PORT)")
+}

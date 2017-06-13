@@ -5,3 +5,8 @@ get_values {
     out "#\$2";
     in "%f,%(\$1\$2:2:VALUE)f,%(\$1\$2:3:VALUE)f,%(\$1\$2:4:VALUE)f,%(\$1\$2:5:VALUE)f,%(\$1\$2:6:VALUE)f,%(\$1\$2:7:VALUE)f,%(\$1\$2:8:VALUE)f";
 }
+
+get_version {
+	out "$\$2F";
+	in "!\$2%s";
+}
