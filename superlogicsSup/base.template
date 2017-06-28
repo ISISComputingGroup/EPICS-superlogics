@@ -30,33 +30,33 @@ record(bo, "$(P)DISABLE")
 
 record(ai, "$(P)$(ADDR):1:VALUE")
 {
-	field(DESC, "Value from address \$(ADDR) channel 1")
+    field(DESC, "Value from address \$(ADDR) channel 1")
     field(SCAN, "1 second")
     field(DTYP, "stream")
     field(INP, "@sprlg.proto get_$(COUNT)_values($(P),$(ADDR)) $(PORT)")
     field(PREC, "3")
     field(EGU, $(UNITS))
-	field(SIML, "$(P)SIM")
+    field(SIML, "$(P)SIM")
     field(SIOL, "$(P)SIM:$(ADDR):1:VALUE")
-	field(SDIS, "$(P)DISABLE")
-	field(FLNK, "$(P)ACTIVITY")
-	info(INTEREST, "HIGH")
-	info(archive, "VAL")
-	info(alarm, "SPRLG_01>")
-	
+    field(SDIS, "$(P)DISABLE")
+    field(FLNK, "$(P)ACTIVITY")
+    info(INTEREST, "HIGH")
+    info(archive, "VAL")
+    info(alarm, "SPRLG_01>")
+    
 }
 
 record(stringin, "$(P)$(ADDR):VERSION")
 {
-	field(DESC, "Firmware version from address \$(ADDR)")
+    field(DESC, "Firmware version from address \$(ADDR)")
     field(SCAN, "1 second")
     field(DTYP, "stream")
     field(INP, "@sprlg.proto get_version($(P),$(ADDR)) $(PORT)")
-	field(SIML, "$(P)SIM")
+    field(SIML, "$(P)SIM")
     field(SIOL, "$(P)SIM:$(ADDR):VERSION")
-	field(SDIS, "$(P)DISABLE")
-	info(INTEREST, "LOW")
-	info(archive, "VAL")
+    field(SDIS, "$(P)DISABLE")
+    info(INTEREST, "LOW")
+    info(archive, "VAL")
 }
 
 record(calc,"$(P)ACTIVITY") {
@@ -72,7 +72,7 @@ record(calc,"$(P)ACTIVITY") {
 
 record(ai, "$(P)SIM:$(ADDR):1:VALUE") 
 {
-	field(DESC, "Sim value from channel 1")
+    field(DESC, "Sim value from channel 1")
     field(SCAN, "Passive")
     field(DTYP, "Soft Channel")
     field(PINI, "YES")
@@ -82,7 +82,7 @@ record(ai, "$(P)SIM:$(ADDR):1:VALUE")
 
 record(stringout, "$(P)SIM:$(ADDR):VERSION") 
 {
-	field(DESC, "Sim firmware version for address \$(ADDR)")
+    field(DESC, "Sim firmware version for address \$(ADDR)")
     field(SCAN, "Passive")
     field(DTYP, "Soft Channel")
 }

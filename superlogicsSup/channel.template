@@ -14,22 +14,22 @@
 # This record is set from 1:VALUE
 record(calc, "$(P)$(ADDR):$(CHAN):VALUE")
 {
-	field(DESC, "Value from address \$(ADDR) channel \$(CHAN)")
-	field(INPA, "$(P)$(ADDR):$(CHAN):RAW CP")
-	field(INPB, "$(P)$(ADDR):1:VALUE MS CP") 
-	field(CALC, "A")
+    field(DESC, "Value from address \$(ADDR) channel \$(CHAN)")
+    field(INPA, "$(P)$(ADDR):$(CHAN):RAW CP")
+    field(INPB, "$(P)$(ADDR):1:VALUE MS CP") 
+    field(CALC, "A")
     field(PREC, "3")
     field(EGU, $(UNITS))
-	info(INTEREST, "HIGH")
-	info(archive, "VAL")
+    info(INTEREST, "HIGH")
+    info(archive, "VAL")
 }
 
 record(ai, "$(P)$(ADDR):$(CHAN):RAW")
 {
-	field(SIML, "$(P)SIM")
+    field(SIML, "$(P)SIM")
     field(SIOL, "$(P)SIM:$(ADDR):$(CHAN):VALUE")
-	field(SDIS, "$(P)DISABLE")
-	field(EGU, $(UNITS))
+    field(SDIS, "$(P)DISABLE")
+    field(EGU, $(UNITS))
 }
 
 ### SIMULATION RECORDS ###
