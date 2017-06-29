@@ -19,7 +19,7 @@ record(calc, "$(P)$(ADDR):$(CHAN):VALUE")
     field(INPB, "$(P)$(ADDR):1:VALUE MS CP") 
     field(CALC, "A")
     field(PREC, "3")
-    field(EGU, $(UNITS))
+    field(EGU, "$(UNITS)")
     info(INTEREST, "HIGH")
     info(archive, "VAL")
 }
@@ -29,7 +29,7 @@ record(ai, "$(P)$(ADDR):$(CHAN):RAW")
     field(SIML, "$(P)SIM")
     field(SIOL, "$(P)SIM:$(ADDR):$(CHAN):VALUE")
     field(SDIS, "$(P)DISABLE")
-    field(EGU, $(UNITS))
+    field(EGU, "$(UNITS)")
 }
 
 ### SIMULATION RECORDS ###
