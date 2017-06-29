@@ -14,7 +14,7 @@
 # This record is set from 1:VALUE
 record(calc, "$(P)$(ADDR):$(CHAN):VALUE")
 {
-    field(DESC, "Value from address \$(ADDR) channel \$(CHAN)")
+    field(DESC, "Value from address $(ADDR) channel $(CHAN)")
     field(INPA, "$(P)$(ADDR):$(CHAN):RAW CP")
     field(INPB, "$(P)$(ADDR):1:VALUE MS CP") 
     field(CALC, "A")
