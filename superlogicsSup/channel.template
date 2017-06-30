@@ -20,6 +20,7 @@ record(calc, "$(P)$(ADDR):$(CHAN):VALUE")
     field(CALC, "A")
     field(PREC, "3")
     field(EGU, "$(UNITS)")
+    field(ASG, "READONLY")
     info(INTEREST, "HIGH")
     info(archive, "VAL")
 }

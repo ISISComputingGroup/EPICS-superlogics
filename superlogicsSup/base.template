@@ -35,7 +35,7 @@ record(ai, "$(P)$(ADDR):1:VALUE")
     field(DTYP, "stream")
     field(INP, "@sprlg.proto get_$(COUNT)_values($(P),$(ADDR)) $(PORT)")
     field(PREC, "3")
-    field(EGU, $(UNITS))
+    field(EGU, "$(UNITS)")
     field(SIML, "$(P)SIM")
     field(SIOL, "$(P)SIM:$(ADDR):1:VALUE")
     field(SDIS, "$(P)DISABLE")
@@ -65,6 +65,7 @@ record(calc,"$(P)ACTIVITY") {
    field(CALC, "A!=0?0:1")
    field(VAL, 0)
    field(PINI, "YES")
+   field(ASG, "READONLY")
 }
 
 ### SIMULATION RECORDS ###
