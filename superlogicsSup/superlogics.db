@@ -16,3 +16,15 @@ record(bo, "$(P)DISABLE")
     field(ZNAM, "COMMS ENABLED")
     field(ONAM, "COMMS DISABLED")
 }
+
+record(bo, "$(P)HAS_CHAN1") 
+{
+    field(ZNAM, "N")
+    field(ONAM, "Y")
+}
+
+record(bo, "$(P)HAS_CHAN2") 
+{
+    field(ZNAM, "N")
+    field(ONAM, "Y")
+}
