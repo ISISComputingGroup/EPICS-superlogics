@@ -1,0 +1,11 @@
+file $(SPRLG)/db/superlogics_channel.template
+{
+	pattern {P, PORT, ADDR, CHAN, UNITS}
+	{"\$(P)", "\$(PORT)", "\$(ADDR)", 2, "C"}
+	{"\$(P)", "\$(PORT)", "\$(ADDR)", 3, "C"}
+	{"\$(P)", "\$(PORT)", "\$(ADDR)", 4, "C"}
+	{"\$(P)", "\$(PORT)", "\$(ADDR)", 5, "C"}
+	{"\$(P)", "\$(PORT)", "\$(ADDR)", 6, "C"}
+	{"\$(P)", "\$(PORT)", "\$(ADDR)", 7, "C"}
+	{"\$(P)", "\$(PORT)", "\$(ADDR)", 8, "C"}
+}
