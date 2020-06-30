@@ -40,6 +40,17 @@ record(stringin, "$(P)$(ADDR):VERSION")
     info(archive, "VAL")
 }
 
+record(calc,"$(P)ACTIVITY") {
+   field(DESC, "Activity record")
+   field(INPA, "$(P)ACTIVITY")
+   field(CALC, "A!=0?0:1")
+   field(VAL, 0)
+   field(PINI, "YES")
+   field(ASG, "READONLY")
+}
+
+
+
 ### SIMULATION RECORDS ###
 
 
