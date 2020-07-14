@@ -1,4 +1,4 @@
-file $(SPRLG)/db/superlogics_channel.template
+file superlogics_channel.template
 {
 	pattern {P, PORT, ADDR, CHAN, UNITS}
 	{"\$(P)", "\$(PORT)", "\$(ADDR)", 2, "C"}
