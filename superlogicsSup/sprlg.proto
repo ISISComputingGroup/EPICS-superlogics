@@ -1,17 +1,7 @@
 Terminator = '\r';
 ReplyTimeout = 2000;
 
-get_8_values {
-    out "#\$2";
-    in "%f,%(\$1\$2:2:RAW)f,%(\$1\$2:3:RAW)f,%(\$1\$2:4:RAW)f,%(\$1\$2:5:RAW)f,%(\$1\$2:6:RAW)f,%(\$1\$2:7:RAW)f,%(\$1\$2:8:RAW)f";
-}
-
-get_1_values {
-    out "#\$2";
-    in "%f";
-}
-
-get_version {
-	out "$\$2F";
-	in "!\$2%s";
+get_channel {
+    out "#\$2\$3";
+    in ">%f";
 }
