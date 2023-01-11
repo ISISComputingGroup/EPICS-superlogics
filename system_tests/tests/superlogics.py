@@ -1,32 +1,33 @@
 import unittest
 
+from parameterized import parameterized
+
 from utils.channel_access import ChannelAccess
 from utils.ioc_launcher import get_default_ioc_dir
 from utils.test_modes import TestModes
-from utils.testing import get_running_lewis_and_ioc, skip_if_recsim, unstable_test
+from utils.testing import get_running_lewis_and_ioc, parameterized_list, IOCRegister, skip_if_recsim
 
-from parameterized import parameterized
 
-# Prefix for addressing PVs on this device
-PREFIX = "SPRLG_01"
+DEVICE_PREFIX = "SPRLG_01"
+CONNECTED_CHANNELS = [0, 1, 2, 3, 4, 5, 6]
+DISCONNECTED_CHANNEL = 7
+OVER_RANGE = 9999.9
+UNDER_RANGE = -9999.9
 
 
 IOCS = [
     {
-        "name": PREFIX,
+        "name": DEVICE_PREFIX,
         "directory": get_default_ioc_dir("SPRLG"),
         "macros": {
-            "HAS_CHAN1": "Y",
-            "HAS_CHAN2": "Y",
+            f"INP_{DISCONNECTED_CHANNEL}_CONNECTED": "NO"
         },
         "emulator": "superlogics",
     },
 ]
 
 
-TEST_MODES = [TestModes.RECSIM, TestModes.DEVSIM]
-
-EXPECTED_VALUES = [1., 2., 3., 4., 5., 6., 7., 8.]
+TEST_MODES = [TestModes.DEVSIM, TestModes.RECSIM]
 
 
 class SuperlogicsTests(unittest.TestCase):
@@ -35,115 +36,43 @@ class SuperlogicsTests(unittest.TestCase):
     """
 
     def setUp(self):
-        self._lewis, self._ioc = get_running_lewis_and_ioc("superlogics", PREFIX)
-
-        self.ca = ChannelAccess(device_prefix=PREFIX)
-        self.ca.assert_that_pv_exists("{}:1:VALUE".format("01"))
-
-    def _set_channel_values(self, values, address):
-        """
-        Set the values for each of the channels on a given address
-        :param values: the new values for each channel
-        :param address: the address to set the channel values for
-        """
-        self._lewis.backdoor_set_on_device("values_{0}".format(int(address)), values)
-
-        for i, value in enumerate(values):
-            channel = i+1
-            pv_name = "SIM:{}:{}:VALUE".format(address, channel)
-            self._ioc.set_simulated_value(pv_name, value)
-
-    def _set_firmware_version(self, value, address):
-        """
-        Set the firmware version
-        :param value: the value to set the firmware version to
-        :param address: the address to set the firmware version on
-        """
-        self._lewis.backdoor_set_on_device("version_{0}".format(int(address)), value)
-        pv_name = "SIM:{}:VERSION".format(address)
-        self._ioc.set_simulated_value(pv_name, value)
-
-
-    def test_GIVEN_address_01_one_value_set_WHEN_read_THEN_value_is_as_expected(self):
-        address = "01"
-        channel = 1
-        expected_value = 1.3
-        self._set_channel_values([expected_value], address)
-
-        pv_name = "{}:{}:VALUE".format(address, channel)
-        self.ca.assert_that_pv_is(pv_name, expected_value)
-        self.ca.assert_that_pv_alarm_is(pv_name, self.ca.Alarms.NONE)
-
-    @skip_if_recsim("In rec sim this test fails")
-    def test_GIVEN_address_01_all_channels_value_set_WHEN_read_THEN_error_state(self):
-        address = "01"
-        self._set_channel_values(EXPECTED_VALUES, address)
-
-        pv_name = "{}:{}:VALUE".format(address, 1)
-        self.ca.assert_that_pv_alarm_is(pv_name, self.ca.Alarms.INVALID)
-
-    def test_GIVEN_address_01_version_set_WHEN_read_THEN_value_is_as_expected(self):
-        address = "01"
-        expected_version = "B1.0"
-        self._set_firmware_version(expected_version, address)
-        pv_name = "{}:VERSION".format(address)
-
-        self.ca.assert_that_pv_is(pv_name, expected_version)
-        self.ca.assert_that_pv_alarm_is(pv_name, self.ca.Alarms.NONE)
-
-    @skip_if_recsim("In rec sim this test fails")
-    def test_GIVEN_address_02_one_value_set_WHEN_read_THEN_error_state(self):
-        address = "02"
-        channel = 1
-        expected_value = 1.3
-        self._set_channel_values([expected_value], address)
-
-        pv_name = "{}:{}:VALUE".format(address, channel)
-        self.ca.assert_that_pv_alarm_is(pv_name, self.ca.Alarms.INVALID)
-
-    @skip_if_recsim("In rec sim this test fails")
-    def test_GIVEN_address_02_two_values_set_WHEN_read_THEN_error_state(self):
-        address = "02"
-        channel = 2
-        expected_value = 2.0
-        self._set_channel_values([0., expected_value], address)
-
-        pv_name = "{}:{}:VALUE".format(address, channel)
-        self.ca.assert_that_pv_alarm_is(pv_name, self.ca.Alarms.INVALID)
-
-    def test_GIVEN_address_02_all_channels_value_set_WHEN_read_THEN_values_are_as_expected(self):
-        address = "02"
-        self._set_channel_values(EXPECTED_VALUES, address)
-
-        for channel, expected_value in enumerate(EXPECTED_VALUES):
-            pv_name = "{}:{}:VALUE".format(address, channel+1)
-            self.ca.assert_that_pv_is(pv_name, expected_value)
-            self.ca.assert_that_pv_alarm_is(pv_name, self.ca.Alarms.NONE)
-
-    def test_GIVEN_address_02_version_set_WHEN_read_THEN_value_is_as_expected(self):
-        address = "02"
-        expected_version = "B1.0"
-        self._set_firmware_version(expected_version, address)
-        pv_name = "{}:VERSION".format(address)
-
-        self.ca.assert_that_pv_is(pv_name, expected_version)
-        self.ca.assert_that_pv_alarm_is(pv_name, self.ca.Alarms.NONE)
-
-    @parameterized.expand([
-        ("channel_{}".format(channel+1), expected_value, channel+1, "02") 
-        for channel, expected_value in enumerate(EXPECTED_VALUES)
-    ])
-    @skip_if_recsim("In rec sim this test fails")
-    def test_GIVEN_address_02_disconnected_WHEN_read_values_THEN_error_state(self, _, expected_value, channel, address):
-        pv_name = "{}:{}:VALUE".format("02", channel)
-        expected_values = [0]*8
-        expected_values[channel-1] = expected_value
-        self._set_channel_values(expected_values, address)
+        self._lewis, self._ioc = get_running_lewis_and_ioc("superlogics", DEVICE_PREFIX)
+        self._lewis.backdoor_run_function_on_device("setup")
+        self.ca = ChannelAccess(device_prefix=DEVICE_PREFIX, default_wait_time=0)
         
-        self.ca.assert_that_pv_alarm_is(pv_name, self.ca.Alarms.NONE, timeout=30)
-        
+    def _set_channel_value(self, channel, value):
+        if IOCRegister.test_mode == TestModes.DEVSIM:
+            self._lewis.backdoor_run_function_on_device("set_channel", [channel, value])
+        elif IOCRegister.test_mode == TestModes.RECSIM:
+            self._ioc.set_simulated_value(f"SIM:CHANNEL:{channel}:VALUE", value)
+
+    @parameterized.expand(parameterized_list(CONNECTED_CHANNELS))
+    def test_GIVEN_channel_value_set_WHEN_value_read_THEN_value_correct(self, _, channel):
+        value = 200.0
+        self._set_channel_value(channel, value)
+        self.ca.assert_that_pv_is(f"CHANNEL:{channel}:VALUE", value)
+
+    def test_GIVEN_no_channel_input_THEN_no_channel_pv(self):
+        self.ca.assert_that_pv_does_not_exist(f"CHANNEL:{DISCONNECTED_CHANNEL}:VALUE")
+
+    @parameterized.expand(parameterized_list(CONNECTED_CHANNELS))
+    def test_GIVEN_channel_value_over_range_THEN_pv_in_alarm(self, _, channel):
+        self._set_channel_value(channel, OVER_RANGE)
+        self.ca.assert_that_pv_alarm_is(f"CHANNEL:{channel}:VALUE", self.ca.Alarms.MAJOR, timeout=30)
+
+    @parameterized.expand(parameterized_list(CONNECTED_CHANNELS))
+    def test_GIVEN_channel_value_under_range_THEN_pv_in_alarm(self, _, channel):
+        self._set_channel_value(channel, UNDER_RANGE)
+        self.ca.assert_that_pv_alarm_is(f"CHANNEL:{channel}:VALUE", self.ca.Alarms.MAJOR, timeout=30)
+
+    @parameterized.expand(parameterized_list(CONNECTED_CHANNELS))
+    @skip_if_recsim("Need emulator to test disconnection logic.")
+    def test_WHEN_device_disconnected_THEN_pv_in_alarm(self, _, channel):
+        pv = f"CHANNEL:{channel}:VALUE"
+
+        self.ca.assert_that_pv_alarm_is(pv, self.ca.Alarms.NONE, timeout=30)
+
         with self._lewis.backdoor_simulate_disconnected_device():
-            self.ca.assert_that_pv_alarm_is(pv_name, self.ca.Alarms.INVALID, timeout=30)
-                
-        # Assert alarms clear on reconnection
-        self.ca.assert_that_pv_alarm_is(pv_name, self.ca.Alarms.NONE, timeout=30)
+            self.ca.assert_that_pv_alarm_is(pv, self.ca.Alarms.INVALID, timeout=30)
+
+        self.ca.assert_that_pv_alarm_is(pv, self.ca.Alarms.NONE, timeout=30)
