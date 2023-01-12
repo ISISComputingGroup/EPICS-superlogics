@@ -1,0 +1,6 @@
+record(bi, "$(P)CHANNEL:$(CHNL):CONNECTED")
+{
+    field(DESC, "Is channel $(CHNL) connected")
+    field(ZNAM, "NO")
+    field(ONAM, "YES")
+}

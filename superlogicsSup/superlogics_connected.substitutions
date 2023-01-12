@@ -1,0 +1,12 @@
+file superlogics_connected.template {
+    pattern {CHNL}
+
+    {"0"}
+    {"1"}
+    {"2"}
+    {"3"}
+    {"4"}
+    {"5"}
+    {"6"}
+    {"7"}
+}

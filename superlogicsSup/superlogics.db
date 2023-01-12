@@ -17,14 +17,10 @@ record(bo, "$(P)DISABLE")
     field(ONAM, "COMMS DISABLED")
 }
 
-record(bo, "$(P)HAS_CHAN1") 
+record(stringin, "$(P)ADDR")
 {
-    field(ZNAM, "N")
-    field(ONAM, "Y")
-}
-
-record(bo, "$(P)HAS_CHAN2") 
-{
-    field(ZNAM, "N")
-    field(ONAM, "Y")
+    field(DESC, "The module address")
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+    field(VAL, "$(ADDR)")
 }

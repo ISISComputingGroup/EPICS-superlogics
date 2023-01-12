@@ -1,0 +1,28 @@
+record(ai, "$(P)CHANNEL:$(CHNL):VALUE")
+{
+    field(DESC, "Value from channel $(CHNL)")
+    field(DTYP, "stream")
+    field(SCAN, "1 second")
+    field(INP, "@sprlg.proto get_channel($(P),$(ADDR),$(CHNL)) $(PORT)")
+    field(PREC, "4")
+    field(EGU, "$(UNITS)")
+    field(HHSV, "MAJOR")
+    field(LLSV, "MAJOR")
+    field(HIHI, "+9999.9")
+    field(LOLO, "-9999.9")
+    field(PINI, "YES")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:CHANNEL:$(CHNL):VALUE")
+    field(SDIS, "$(P)DISABLE")
+    info(INTEREST, "HIGH")
+    info(archive, "VAL")
+    info(alarm, "SPRLG")
+}
+
+### SIMULATION RECORDS ###
+
+record(ai, "$(P)SIM:CHANNEL:$(CHNL):VALUE")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
