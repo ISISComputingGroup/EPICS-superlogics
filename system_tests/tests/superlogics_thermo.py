@@ -20,9 +20,11 @@ IOCS = [
         "name": DEVICE_PREFIX,
         "directory": get_default_ioc_dir("SPRLG"),
         "macros": {
+            "TYPE": "THERMO",
             f"INP_{DISCONNECTED_CHANNEL}_CONNECTED": "NO"
         },
         "emulator": "superlogics",
+        "lewis_protocol": "thermo"
     },
 ]
 
