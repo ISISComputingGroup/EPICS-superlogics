@@ -24,3 +24,11 @@ record(stringin, "$(P)ADDR")
     field(DTYP, "Soft Channel")
     field(VAL, "$(ADDR)")
 }
+
+record(stringin, "$(P)TYPE")
+{
+    field(DESC, "The module type")
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+    field(VAL, "$(TYPE)")
+}
