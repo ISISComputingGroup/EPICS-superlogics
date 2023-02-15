@@ -52,7 +52,7 @@ class SuperlogicsTests(unittest.TestCase):
         self._set_input(OVER_RANGE)
         self.ca.assert_that_pv_alarm_is("VALUE", self.ca.Alarms.MAJOR, timeout=30)
 
-    def test_GIVEN_channel_value_under_range_THEN_input_in_alarm(self):
+    def test_GIVEN_input_value_under_range_THEN_input_in_alarm(self):
         self._set_input(UNDER_RANGE)
         self.ca.assert_that_pv_alarm_is("VALUE", self.ca.Alarms.MAJOR, timeout=30)
 
