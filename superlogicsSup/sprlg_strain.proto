@@ -1,0 +1,7 @@
+Terminator = '\r';
+ReplyTimeout = 2000;
+
+get_value {
+    out "#\$2";
+    in ">%f";
+}

@@ -1,4 +1,4 @@
-file superlogics_connected.template {
+file superlogics_thermo_connected.template {
     pattern {CHNL}
 
     {"0"}
