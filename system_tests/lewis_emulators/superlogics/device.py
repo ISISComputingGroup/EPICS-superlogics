@@ -1,25 +1,24 @@
 from collections import OrderedDict
 
-from .states import DefaultState
 from lewis.devices import StateMachineDevice
 
+from .states import DefaultState
 
 NUMBER_OF_INPUT_CHANNELS = 8
 
 
 class SimulatedSuperlogics(StateMachineDevice):
-
     def _initialize_data(self):
         self.connected = True
         self.setup()
 
     def _get_state_handlers(self):
         return {
-            'default': DefaultState(),
+            "default": DefaultState(),
         }
 
     def _get_initial_state(self):
-        return 'default'
+        return "default"
 
     def _get_transition_handlers(self):
         return OrderedDict([])

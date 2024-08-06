@@ -1,11 +1,11 @@
 from lewis.adapters.stream import StreamInterface
-from lewis.utils.command_builder import CmdBuilder
 from lewis.core.logging import has_log
+from lewis.utils.command_builder import CmdBuilder
 from lewis.utils.replies import conditional_reply
+
 
 @has_log
 class StrainStreamInterface(StreamInterface):
-
     protocol = "strain"
     in_terminator = "\r"
     out_terminator = "\r"
