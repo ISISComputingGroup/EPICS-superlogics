@@ -6,7 +6,6 @@ from lewis.utils.replies import conditional_reply
 
 @has_log
 class StrainStreamInterface(StreamInterface):
-
     protocol = "strain"
     in_terminator = "\r"
     out_terminator = "\r"

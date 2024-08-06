@@ -18,7 +18,7 @@ IOCS = [
             "TYPE": "STRAIN",
         },
         "emulator": "superlogics",
-        "lewis_protocol": "strain"
+        "lewis_protocol": "strain",
     },
 ]
 
@@ -35,7 +35,7 @@ class SuperlogicsTests(unittest.TestCase):
         self._lewis, self._ioc = get_running_lewis_and_ioc("superlogics", DEVICE_PREFIX)
         self._lewis.backdoor_run_function_on_device("setup")
         self.ca = ChannelAccess(device_prefix=DEVICE_PREFIX, default_wait_time=0)
-        
+
     def _set_input(self, value):
         if IOCRegister.test_mode == TestModes.DEVSIM:
             self._lewis.backdoor_run_function_on_device("set_channel", [0, value])

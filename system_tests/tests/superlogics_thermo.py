@@ -17,12 +17,9 @@ IOCS = [
     {
         "name": DEVICE_PREFIX,
         "directory": get_default_ioc_dir("SPRLG"),
-        "macros": {
-            "TYPE": "THERMO",
-            f"INP_{DISCONNECTED_CHANNEL}_CONNECTED": "NO"
-        },
+        "macros": {"TYPE": "THERMO", f"INP_{DISCONNECTED_CHANNEL}_CONNECTED": "NO"},
         "emulator": "superlogics",
-        "lewis_protocol": "thermo"
+        "lewis_protocol": "thermo",
     },
 ]
 
@@ -39,7 +36,7 @@ class SuperlogicsTests(unittest.TestCase):
         self._lewis, self._ioc = get_running_lewis_and_ioc("superlogics", DEVICE_PREFIX)
         self._lewis.backdoor_run_function_on_device("setup")
         self.ca = ChannelAccess(device_prefix=DEVICE_PREFIX, default_wait_time=0)
-        
+
     def _set_channel_value(self, channel, value):
         if IOCRegister.test_mode == TestModes.DEVSIM:
             self._lewis.backdoor_run_function_on_device("set_channel", [channel, value])
@@ -58,12 +55,16 @@ class SuperlogicsTests(unittest.TestCase):
     @parameterized.expand(parameterized_list(CONNECTED_CHANNELS))
     def test_GIVEN_channel_value_over_range_THEN_pv_in_alarm(self, _, channel):
         self._set_channel_value(channel, OVER_RANGE)
-        self.ca.assert_that_pv_alarm_is(f"CHANNEL:{channel}:VALUE", self.ca.Alarms.MAJOR, timeout=30)
+        self.ca.assert_that_pv_alarm_is(
+            f"CHANNEL:{channel}:VALUE", self.ca.Alarms.MAJOR, timeout=30
+        )
 
     @parameterized.expand(parameterized_list(CONNECTED_CHANNELS))
     def test_GIVEN_channel_value_under_range_THEN_pv_in_alarm(self, _, channel):
         self._set_channel_value(channel, UNDER_RANGE)
-        self.ca.assert_that_pv_alarm_is(f"CHANNEL:{channel}:VALUE", self.ca.Alarms.MAJOR, timeout=30)
+        self.ca.assert_that_pv_alarm_is(
+            f"CHANNEL:{channel}:VALUE", self.ca.Alarms.MAJOR, timeout=30
+        )
 
     @parameterized.expand(parameterized_list(CONNECTED_CHANNELS))
     @skip_if_recsim("Need emulator to test disconnection logic.")
