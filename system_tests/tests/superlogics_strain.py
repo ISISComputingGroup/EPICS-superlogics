@@ -3,8 +3,7 @@ import unittest
 from utils.channel_access import ChannelAccess
 from utils.ioc_launcher import get_default_ioc_dir
 from utils.test_modes import TestModes
-from utils.testing import get_running_lewis_and_ioc, IOCRegister, skip_if_recsim
-
+from utils.testing import IOCRegister, get_running_lewis_and_ioc, skip_if_recsim
 
 DEVICE_PREFIX = "SPRLG_01"
 OVER_RANGE = 9999.9
@@ -41,7 +40,7 @@ class SuperlogicsTests(unittest.TestCase):
         if IOCRegister.test_mode == TestModes.DEVSIM:
             self._lewis.backdoor_run_function_on_device("set_channel", [0, value])
         elif IOCRegister.test_mode == TestModes.RECSIM:
-            self._ioc.set_simulated_value(f"SIM:VALUE", value)
+            self._ioc.set_simulated_value("SIM:VALUE", value)
 
     def test_GIVEN_input_value_set_WHEN_value_read_THEN_value_correct(self):
         value = 200.0
